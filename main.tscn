@@ -1,32 +1,30 @@
-[gd_scene load_steps=6 format=3 uid="uid://dvwx6nfysitn8"]
+[gd_scene load_steps=3 format=3 uid="uid://dvwx6nfysitn8"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_vxioh"]
-[ext_resource type="Script" path="res://player.gd" id="1_ykc4r"]
-[ext_resource type="Texture2D" uid="uid://dbi8gq2fgtmql" path="res://assets/p2.svg" id="4_2fv8x"]
-[ext_resource type="Texture2D" uid="uid://7hwu0eu7ojhl" path="res://assets/p1.svg" id="4_21h14"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_343wq"]
-radius = 64.0
+[ext_resource type="PackedScene" uid="uid://bjs84g6gxxnre" path="res://player.tscn" id="2_pp5gd"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_vxioh")
+player_container_scene = ExtResource("2_pp5gd")
 
-[node name="P1_CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(248, 143)
-script = ExtResource("1_ykc4r")
+[node name="MainMenu" type="Node2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="P1_CharacterBody2D"]
-shape = SubResource("CircleShape2D_343wq")
+[node name="host" type="Button" parent="MainMenu"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Host"
 
-[node name="Sprite2D" type="Sprite2D" parent="P1_CharacterBody2D"]
-texture = ExtResource("4_21h14")
+[node name="connect" type="Button" parent="MainMenu"]
+offset_left = 2.0
+offset_top = 40.0
+offset_right = 74.0
+offset_bottom = 71.0
+text = "Connect"
 
-[node name="P2_CharacterBody2D" type="CharacterBody2D" parent="."]
-position = Vector2(725, 182)
-script = ExtResource("1_ykc4r")
+[node name="EntityContainer" type="Node2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="P2_CharacterBody2D"]
-shape = SubResource("CircleShape2D_343wq")
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://player.tscn")
+spawn_path = NodePath("../EntityContainer")
 
-[node name="Sprite2D" type="Sprite2D" parent="P2_CharacterBody2D"]
-texture = ExtResource("4_2fv8x")
+[connection signal="pressed" from="MainMenu/host" to="." method="_on_host_pressed"]
