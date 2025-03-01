@@ -1,8 +1,9 @@
 extends Node2D
 
-var peer = ENetMultiplayerPeer.new()
-const port = 4242
+const IP_ADDRESS = "127.0.0.1"
+const PORT = 4242
 
+var peer = ENetMultiplayerPeer.new()
 var players = []
 
 @export var player_container_scene: PackedScene
@@ -12,13 +13,22 @@ func _ready() -> void:
 	pass
 
 func _on_host_pressed():
-	var error = peer.create_server(int(port))
+	var error = peer.create_server(PORT)
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
 	
 	_on_connected()
 	_add_player(1)
+
+func _on_connect_pressed():
+	var error = peer.create_client(IP_ADDRESS, PORT)
+	if error:
+		return error
+	multiplayer.multiplayer_peer = peer
+
+	_on_connected()
+	_add_player(2)
 
 func _on_connected():
 	_toggle_menu(false)
