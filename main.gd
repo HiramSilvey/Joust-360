@@ -10,7 +10,24 @@ var players = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	# multiplayer.peer_disconnected.connect(_on_player_disconnected)
+	multiplayer.connected_to_server.connect(_on_connected)
+	# multiplayer.connection_failed.connect(_on_connect_fail)
+	# multiplayer.server_disconnected.connect(_on_server_dicsonnected)
+	$MultiplayerSpawner.spawned.connect(_on_spawned)
+
+
+# Called when a new node has been created by the MultiplayerSpawner. This will probably
+# only be called on the clients, I don't think the `spawned` signal is emitted
+# on the server when it adds a node to the local tree.
+func _on_spawned(node: Node):
+	if node is Player:
+		players.append(node)
+
+func _on_peer_connected(id: int):
+	if multiplayer.is_server():
+		_add_player(id)
 
 func _on_host_pressed():
 	var error = peer.create_server(PORT)
@@ -26,9 +43,6 @@ func _on_connect_pressed():
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
-
-	_on_connected()
-	_add_player(2)
 
 func _on_connected():
 	_toggle_menu(false)
