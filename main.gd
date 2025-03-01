@@ -22,8 +22,8 @@ func _ready() -> void:
 # only be called on the clients, I don't think the `spawned` signal is emitted
 # on the server when it adds a node to the local tree.
 func _on_spawned(node: Node):
-	if node is Player:
-		players.append(node)
+	if node is PlayerContainer:
+		players.append(node.player)
 
 func _on_peer_connected(id: int):
 	if multiplayer.is_server():
@@ -50,8 +50,9 @@ func _on_connected():
 func _toggle_menu(state: bool):
 	$MainMenu.visible=state
 
-func _add_player(_id: int):
-	var player = player_container_scene.instantiate() as Player
+func _add_player(id: int):
+	var player = player_container_scene.instantiate() as PlayerContainer
+	player.name = str(id)
 	player.position = Vector2(100,100)
 	players.append(player)
 	$EntityContainer.add_child(player)

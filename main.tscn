@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://dvwx6nfysitn8"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_vxioh"]
-[ext_resource type="PackedScene" uid="uid://bjs84g6gxxnre" path="res://player.tscn" id="2_pp5gd"]
+[ext_resource type="PackedScene" uid="uid://bt47cutkhkr6m" path="res://player_container.tscn" id="2_3h1q8"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_vxioh")
-player_container_scene = ExtResource("2_pp5gd")
+player_container_scene = ExtResource("2_3h1q8")
 
 [node name="MainMenu" type="Node2D" parent="."]
 
@@ -24,7 +24,7 @@ text = "Connect"
 [node name="EntityContainer" type="Node2D" parent="."]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://player.tscn")
+_spawnable_scenes = PackedStringArray("res://player_container.tscn")
 spawn_path = NodePath("../EntityContainer")
 
 [connection signal="pressed" from="MainMenu/host" to="." method="_on_host_pressed"]
