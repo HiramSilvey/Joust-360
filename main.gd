@@ -23,9 +23,10 @@ func _ready() -> void:
 # on the server when it adds a node to the local tree.
 func _on_spawned(node: Node):
 	if node is PlayerContainer:
-		players.append(node.player)
+		pass
 
 func _on_peer_connected(id: int):
+	print(id)
 	if multiplayer.is_server():
 		_add_player(id)
 
@@ -53,8 +54,7 @@ func _toggle_menu(state: bool):
 func _add_player(id: int):
 	var player = player_container_scene.instantiate() as PlayerContainer
 	player.name = str(id)
-	player.position = Vector2(100,100)
-	players.append(player)
+	# player.position = Vector2(100,100)
 	$EntityContainer.add_child(player)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
