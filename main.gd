@@ -26,7 +26,6 @@ func _on_spawned(node: Node):
 		pass
 
 func _on_peer_connected(id: int):
-	print(id)
 	if multiplayer.is_server():
 		_add_player(id)
 
